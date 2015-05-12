@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>文章一</title>
+    <meta name="description" content="" />
+    <meta name="author" content="hlzhang">
+    <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    #fire {
+        font-size: 30px;
+    }
+    </style>
+    <script>
+    $(document).ready(function() {
+        $("#fire").click(function() {
+            var fire = 0;
+            var data = {
+                resource_id: '53747e31-b6e5-4e79-8578-0699a627a798',
+                limit: 1,
+            };
+            $.ajax({
+                url: 'http://data.sjtu.edu.cn/api/action/datastore_search',
+                data: data,
+                dataType: 'jsonp',
+                success: function(data) {
+                    fire = parseFloat(data.result.records[0]["fire"]) + 1;
+                    console.log(fire);
+                    $.ajax({
+                        url: 'add.php',
+                        type: 'POST',
+                        data: {
+                            fire: fire
+                        },
+                        dataType: 'json',
+                        error: function() {
+                            console.log('something is wrong');
+                        },
+                        success: function(data) {
+                            console.log(data["result"]);
+                        }
+                    });
+                }
+            });
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <h1>这里是文章一</h1>
+    <span id="fire" class="glyphicon glyphicon-fire"></span>
+</body>
+
+</html>

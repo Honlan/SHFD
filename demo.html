@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>上海复旦大学火焰锅演示</title>
+    <meta name="description" content="" />
+    <meta name="author" content="hlzhang">
+    <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: #25292D;
+        color: #fff;
+        font-family: "Open Sans", sans-serif;
+        font-size: 15px;
+        min-height: 640px;
+        min-width: 1024px;
+    }
+    
+    .progress-container,
+    .myprogress {
+        border-radius: 10px;
+    }
+    
+    .progress-container {
+        width: 100%;
+        height: 600px;
+        margin-top: 30px;
+        border: solid 1px #111;
+        background: #151515;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    #lightProgress {
+        font-size: 40px;
+        color: #FFF;
+    }
+    
+    .progress-container.done .myprogress {
+        background: #0f9816;
+    }
+    
+    .progress-container.done .progress-overlay {
+        display: none;
+    }
+    
+    .myprogress,
+    .progress-overlay {
+        position: absolute;
+    }
+    
+    .myprogress {
+        width: 100%;
+        height: 0%;
+        background: rgb(17, 155, 176);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        z-index: 1;
+        bottom: 0;
+        color: #151515;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+        font-weight: bold;
+        transition: background 250ms ease;
+    }
+    
+    @keyframes uploadarrow {
+        0% {
+            bottom: 0%;
+            border-bottom-color: rgba(255, 255, 255, 0);
+        }
+        50% {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+        100% {
+            bottom: 100%;
+            border-bottom-color: rgba(255, 255, 255, 0);
+        }
+    }
+    
+    @-webkit-keyframes uploadarrow {
+        0% {
+            bottom: 0%;
+            border-bottom-color: rgba(255, 255, 255, 0);
+        }
+        50% {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+        100% {
+            bottom: 100%;
+            border-bottom-color: rgba(255, 255, 255, 0);
+        }
+    }
+    
+    .progress-overlay {
+        z-index: 2;
+        left: 30%;
+        width: 40%;
+        height: 100%;
+        bottom: 0;
+        border: solid 20px transparent;
+        border-width: 0 25px 20px 25px;
+        border-bottom-color: rgba(255, 255, 255, 0.25);
+        -webkit-animation: uploadarrow 1200ms infinite ease-out;
+        -moz-animation: uploadarrow 1200ms infinite linear;
+        -o-animation: uploadarrow 1200ms infinite linear;
+        animation: uploadarrow 1200ms infinite linear;
+    }
+    
+    #fire {
+        margin-top: 60px;
+        margin-bottom: 80px;
+    }
+    
+    #fire h1 {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    
+    #fire .row {
+        text-align: center;
+    }
+    
+    #control {
+        margin: 0 auto;
+    }
+    
+    #control .btn,
+    #control #password {
+        display: block;
+        width: 100%;
+        margin-bottom: 20px;
+        box-shadow: 3px 3px 5px rgba(20, 20, 20, 0.6);
+    }
+    
+    #control #password {
+        margin-bottom: 16px;
+        margin-top: 50px;
+    }
+    
+    #control .btn-control {
+        transition: width .2s ease-in-out;
+        -o-transition: width .2s ease-in-out;
+        -ms-transition: width .2s ease-in-out;
+        -moz-transition: width .2s ease-in-out;
+        -webkit-transition: width .2s ease-in-out;
+    }
+    
+    #control .btn-control:hover {
+        width: 80%;
+    }
+    
+    .guide img {
+        width: 70%;
+        margin-left: 15%;
+        margin-right: 15%;
+    }
+    
+    #control p {
+        font-size: 18px;
+    }
+    
+    #control span {
+        margin-right: 10px;
+        position: relative;
+        top: 3px;
+    }
+    
+    .btn-active {
+        width: 80% !important;
+    }
+    </style>
+    <script>
+    var count = 0;
+    var red = 0,
+        green = 0,
+        blue = 0;
+    var interval = '';
+    var pending = false;
+
+    $(document).ready(function() {
+        $("#start").click(function() {
+            if (!pending) {
+                interval = setInterval(function() {
+                    $.ajax({
+                        url: 'get.php',
+                        type: 'POST',
+                        data: {},
+                        dataType: 'json',
+                        error: function() {},
+                        success: function(data) {
+                            console.log("get!");
+                            count = data * 5;
+                            if (count > 100) count = 100;
+                            red = Math.round(17 + count * 1.95);
+                            green = Math.round(75 - count * 0.25);
+                            blue = Math.round(176 - count * 1.4);
+                            $('#lightProgress').css('height', count + '%').text(count).css('background-color', 'rgba(' + red.toString() + ',' + green.toString() + ',' + blue.toString() + ',0.9)');
+                        }
+                    });
+                }, 2000);
+                pending = true;
+            }
+        });
+        $("#stop").click(function() {
+            if (pending) {
+                clearInterval(interval);
+                pending = false;
+            };
+        });
+        $('#reset').click(function() {
+            if ($('#password').val() == 'shfd') {
+                $.ajax({
+                    url: 'reset.php',
+                    type: 'POST',
+                    data: {},
+                    dataType: 'json',
+                    error: function() {},
+                    success: function(data) {
+                        console.log('reset!');
+                    }
+                });
+            }
+        });
+        $(".btn-control").click(function() {
+            var $obj = $(this);
+            $(".btn-control").removeClass('btn-active');
+            $obj.addClass('btn-active');
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div id='fire'>
+        <div class="row">
+            <div class="col-md-1 col-sx-1 col-sm-1 col-lg-1">
+            </div>
+            <div class="show col-md-2 col-sx-2 col-sm-2 col-lg-2">
+                <div class="progress-container">
+                    <div class="myprogress" id='lightProgress'>0</div>
+                    <div class="progress-overlay"></div>
+                </div>
+            </div>
+            <div class="guide col-md-6 col-sx-6 col-sm-6 col-lg-6">
+                <h1>OMNILab</h1>
+                <img src="2dcode.jpg">
+            </div>
+            <div class="ol-md-2 col-sx-2 col-sm-2 col-lg-2" id="control">
+                <span class="btn btn-primary btn-control" id="start">开始</span>
+                <span class="btn btn-success btn-control" id="stop">停止</span>
+                <input id="password" type="password" class="form-control" placeholder="password">
+                <span class="btn btn-warning" id="reset">重置</span>
+                <h2 style="margin-top:120px;margin-bottom:30px;">操作说明</h2>
+                <p><span class="glyphicon glyphicon-search" style="color:rgb(240, 78, 78);"></span>扫码关注公众号</p>
+                <p><span class="glyphicon glyphicon-send" style="color:rgb(78, 166, 240);"></span>回复并阅读文章</p>
+                <p><span class="glyphicon glyphicon-thumbs-up" style="color:rgb(78, 240, 129);"></span>点击文中的火焰</p>
+                <p><span class="glyphicon glyphicon-fire" style="color:rgb(240, 207, 78);"></span>众人拾柴火焰高</p>
+            </div>
+            <div class="col-md-1 col-sx-1 col-sm-1 col-lg-1">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
