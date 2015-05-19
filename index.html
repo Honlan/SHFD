@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>上海复旦大学火焰锅演示</title>
+    <title>腌do鲜</title>
     <meta name="description" content="" />
     <meta name="author" content="hlzhang">
     <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, minimum-scale=1, user-scalable=no">
@@ -190,7 +190,8 @@
     var red = 0,
         green = 0,
         blue = 0;
-    var interval = '';
+    var interval = '',
+        interval2 = '';
     var pending = false;
 
     $(document).ready(function() {
@@ -213,7 +214,7 @@
                             $('#lightProgress').css('height', count + '%').text(count).css('background-color', 'rgba(' + red.toString() + ',' + green.toString() + ',' + blue.toString() + ',0.9)');
                         }
                     });
-                }, 2000);
+                }, 500);
                 pending = true;
             }
         });
@@ -225,18 +226,20 @@
         });
         $('#reset').click(function() {
             if ($('#password').val() == 'shfd') {
-                $.ajax({
-                    url: 'reset.php',
-                    type: 'POST',
-                    data: {},
-                    dataType: 'json',
-                    error: function() {},
-                    success: function(data) {
-                        console.log('reset!');
-                    }
+                interval2 = setInterval(function() {
+                    $.ajax({
+                        url: 'reset.php',
+                        type: 'POST',
+                        data: {},
+                        dataType: 'json',
+                        error: function() {},
+                        success: function(data) {
+                            console.log('reset!');
+                        }
+                    });
                 });
             }
-        });
+        }, 30000);
         $(".btn-control").click(function() {
             var $obj = $(this);
             $(".btn-control").removeClass('btn-active');
