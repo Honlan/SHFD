@@ -224,8 +224,20 @@
                 pending = false;
             };
         });
+        var once = false;
         $('#reset').click(function() {
-            if ($('#password').val() == 'shfd') {
+            if ($('#password').val() == 'shfd' && !once) {
+                once = true;
+                $.ajax({
+                    url: 'reset.php',
+                    type: 'POST',
+                    data: {},
+                    dataType: 'json',
+                    error: function() {},
+                    success: function(data) {
+                        console.log('reset!');
+                    }
+                });
                 interval2 = setInterval(function() {
                     $.ajax({
                         url: 'reset.php',
