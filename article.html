@@ -12,14 +12,43 @@
     <style>
     body {
         text-align: center;
+        padding: 50px;
     }
+    
     #fire {
-        font-size: 30px;
+        margin-top: 30px;
+        margin-bottom: -20px;
+        font-size: 50px;
+        color: rgb(247, 153, 153);
+        position: relative;
+    }
+    
+    img {
+        width: 20%;
+        display: inline-block;
     }
     </style>
     <script>
     $(document).ready(function() {
+        var animate = false;
         $("#fire").click(function() {
+            var $obj = $(this);
+            if (!animate) {
+                animate = true;
+                $obj.css("color", "red");
+                $obj.animate({
+                    left: "10px"
+                }, 100, function() {
+                    $obj.animate({
+                        left: "-10px"
+                    }, 200, function() {
+                        $obj.animate({left: "0"}, 100, function() {
+                            animate = false;
+                            $obj.css("color", "rgb(247, 153, 153)");
+                        });
+                    });
+                });
+            };
             var fire = 0;
             var data = {
                 resource_id: '53747e31-b6e5-4e79-8578-0699a627a798',
@@ -56,7 +85,9 @@
 <body>
     <h1>觉得<span style="color:red">赞</span></h1>
     <h2>就煽风“猛<span style="color:red">点</span>”火</h2>
-    <span id="fire" class="glyphicon glyphicon-fire"></span>
+    <p><span id="fire" class="glyphicon glyphicon-fire"></span></p>
+    <img src="do.jpg">
+    <img src="omni.jpg">
 </body>
 
 </html>
