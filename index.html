@@ -131,7 +131,7 @@
         margin-top: 30px;
         margin-bottom: 30px;
         font-size: 60px;
-        font-family:minijiankatong308852;
+        font-family: minijiankatong308852;
         color: #eee;
     }
     
@@ -170,6 +170,7 @@
     
     .guide img {
         width: 70%;
+        max-width: 450px;
         margin-left: 15%;
         margin-right: 15%;
     }
@@ -187,8 +188,29 @@
     .btn-active {
         width: 80% !important;
     }
+    
+    #timer {
+        margin-top: 40px;
+    }
+    
+    #timer p {
+        font-size: 13px;
+        background-color: #eee;
+        color: #333;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        width: 120px;
+        margin: 10px auto;
+        border-radius: 3px;
+    }
+    
+    #timer p:hover {
+        color: #fff;
+        background-color: #e55;
+        cursor: pointer;
+    }
     </style>
-    <link href='http://www.youziku.com/webfont/CSS/73aba61815168f88f4777343f7022382' rel='stylesheet' type='text/css'/>
+    <link href='http://www.youziku.com/webfont/CSS/73aba61815168f88f4777343f7022382' rel='stylesheet' type='text/css' />
     <script>
     var count = 0;
     var red = 0,
@@ -261,6 +283,81 @@
             $(".btn-control").removeClass('btn-active');
             $obj.addClass('btn-active');
         });
+
+        $('#timer5').click(function() {
+            $.ajax({
+                url: 'full.php',
+                type: 'POST',
+                data: {},
+                dataType: 'json',
+                error: function() {},
+                success: function(data) {
+                    console.log('full!');
+                }
+            });
+            setTimeout(function() {
+                $.ajax({
+                    url: 'reset.php',
+                    type: 'POST',
+                    data: {},
+                    dataType: 'json',
+                    error: function() {},
+                    success: function(data) {
+                        console.log('reset by 5 min timer!');
+                    }
+                });
+            }, 5 * 60 * 1000);
+        });
+
+        $('#timer10').click(function() {
+            $.ajax({
+                url: 'full.php',
+                type: 'POST',
+                data: {},
+                dataType: 'json',
+                error: function() {},
+                success: function(data) {
+                    console.log('full!');
+                }
+            });
+            setTimeout(function() {
+                $.ajax({
+                    url: 'reset.php',
+                    type: 'POST',
+                    data: {},
+                    dataType: 'json',
+                    error: function() {},
+                    success: function(data) {
+                        console.log('reset by 10 min timer!');
+                    }
+                });
+            }, 10 * 60 * 1000);
+        });
+
+        $('#timer15').click(function() {
+            $.ajax({
+                url: 'full.php',
+                type: 'POST',
+                data: {},
+                dataType: 'json',
+                error: function() {},
+                success: function(data) {
+                    console.log('full!');
+                }
+            });
+            setTimeout(function() {
+                $.ajax({
+                    url: 'reset.php',
+                    type: 'POST',
+                    data: {},
+                    dataType: 'json',
+                    error: function() {},
+                    success: function(data) {
+                        console.log('reset by 15 min timer!');
+                    }
+                });
+            }, 15 * 60 * 1000);
+        });
     });
     </script>
 </head>
@@ -284,12 +381,17 @@
                 <span class="btn btn-primary btn-control" id="start">开始</span>
                 <span class="btn btn-success btn-control" id="stop">停止</span>
                 <input id="password" type="password" class="form-control" placeholder="password">
-                <span class="btn btn-warning" id="reset">重置</span>
-                <h2 style="margin-top:120px;margin-bottom:30px;">操作说明</h2>
+                <span class="btn btn-warning" id="reset">周期重置</span>
+                <h2 style="margin-top:50px;margin-bottom:30px;">操作说明</h2>
                 <p><span class="glyphicon glyphicon-search" style="color:rgb(240, 78, 78);"></span>进入微信</p>
                 <p><span class="glyphicon glyphicon-send" style="color:rgb(78, 166, 240);"></span>扫二维码</p>
                 <p><span class="glyphicon glyphicon-thumbs-up" style="color:rgb(78, 240, 129);"></span>进入页面</p>
                 <p><span class="glyphicon glyphicon-fire" style="color:rgb(240, 207, 78);"></span>煽风点火</p>
+                <div id="timer">
+                    <p id="timer5">5 min</p>
+                    <p id="timer10">10 min</p>
+                    <p id="timer15">15 min</p>
+                </div>
             </div>
             <div class="col-md-1 col-sx-1 col-sm-1 col-lg-1">
             </div>
